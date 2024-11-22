@@ -5,6 +5,7 @@ import io
 import geminiresp
 import json
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 app = fastapi.FastAPI()
 
@@ -21,7 +22,8 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"message": "API is Live"}
-#POST METHOD To Handle Request
+
+# POST to handle requests
 @app.post("/upload/")
 async def upload_file(
     resume: Optional[fastapi.UploadFile] = fastapi.File(None),
@@ -55,4 +57,10 @@ async def upload_file(
         }
     return {"error": "No input provided / Incorrect Input"}
 
-
+if __name__ == "__main__":
+    uvicorn.run(
+        "main:app",  
+        host="0.0.0.0",  
+        port=8000, 
+        reload=True 
+    )
